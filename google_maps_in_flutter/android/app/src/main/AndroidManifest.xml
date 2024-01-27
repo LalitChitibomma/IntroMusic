@@ -5,12 +5,13 @@
         android:icon="@mipmap/ic_launcher">
 
         <!-- TODO: Add your Google Maps API key here -->
-        <meta-data android:name="com.google.android.geo.AIzaSyABKdlvFzZSt2cQfdCh4vbszjzskoKEMIo"
+        <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyABKdlvFzZSt2cQfdCh4vbszjzskoKEMIo"/>
 
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
+            android:exported="true"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"

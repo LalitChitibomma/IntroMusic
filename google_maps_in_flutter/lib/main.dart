@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'locations.dart' as locations;
@@ -18,7 +20,27 @@ class _MyAppState extends State<MyApp> {
   List<Marker> markerz = [];
   int id = 1;
 
-  LocationData? currentLocation;
+  Position target = Position(
+    latitude: 42.7268914, // replace with your desired target latitude
+    longitude: -84.4748073, // replace with your desired target longitude
+    timestamp: DateTime.now(),
+    accuracy: 0.0,
+    altitude: 0.0,
+    altitudeAccuracy: 0.0,
+    heading: 0.0,
+    headingAccuracy: 0.0,
+    speed: 0.0,
+    speedAccuracy: 0.0,
+  );
+
+  late LocationData currentLocation;
+
+  AudioPlayer audioPlayer = AudioPlayer();
+
+  void playAudio() {
+    const pathway = 'CanYouFeel.mp3';
+    audioPlayer.play(AssetSource(pathway));
+  }
 
   void getCurrentLocation() {
     Location location = Location();
@@ -26,6 +48,25 @@ class _MyAppState extends State<MyApp> {
     location.getLocation().then((location) {
       currentLocation = location;
     });
+
+    location.onLocationChanged.listen(
+      (newLoc) {
+        currentLocation = newLoc;
+
+        setState(() {});
+
+        double dist = ((currentLocation.latitude ?? 0) - target.latitude) *
+                ((currentLocation.latitude ?? 0) - target.latitude) +
+            ((currentLocation.longitude ?? 0) - target.longitude) *
+                ((currentLocation.longitude ?? 0) - target.longitude);
+        print('Distance $dist');
+        if (dist < 0.000001) {
+          playAudio();
+        }
+
+        print('$currentLocation');
+      },
+    );
   }
 
   @override
@@ -33,6 +74,15 @@ class _MyAppState extends State<MyApp> {
     getCurrentLocation();
     super.initState();
   }
+
+  // void initLocationTracking() {
+  //   void playAudioWhenCloseToTarget() {
+
+  //   }
+
+  //   getCurrentLocation();
+  //   playAudioWhenCloseToTarget();
+  // }
 
   final Map<String, Marker> _markers = {};
   Future<void> _onMapCreated(GoogleMapController controller) async {

@@ -21,8 +21,8 @@ class _MyAppState extends State<MyApp> {
   int id = 1;
 
   Position target = Position(
-    latitude: 42.7268914, // replace with your desired target latitude
-    longitude: -84.4748073, // replace with your desired target longitude
+    latitude: 0.0, // replace with your desired target latitude
+    longitude: 0.0, // replace with your desired target longitude
     timestamp: DateTime.now(),
     accuracy: 0.0,
     altitude: 0.0,
@@ -112,7 +112,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Google Office Locations'),
+          title: const Text('IntroMusic'),
           elevation: 2,
         ),
         body: GoogleMap(
@@ -129,6 +129,22 @@ class _MyAppState extends State<MyApp> {
             );
 
             markerz.add(newMarker);
+            double newLatitude =
+                latLng.latitude; // replace with your desired latitude
+            double newLongitude =
+                latLng.longitude; // replace with your desired latitude
+            target = Position(
+              latitude: newLatitude,
+              longitude: newLongitude,
+              timestamp: target.timestamp,
+              accuracy: target.accuracy,
+              altitude: target.altitude,
+              altitudeAccuracy: target.altitudeAccuracy,
+              heading: target.heading,
+              headingAccuracy: target.headingAccuracy,
+              speed: target.speed,
+              speedAccuracy: target.speedAccuracy,
+            );
             id = id + 1;
             setState(() {});
 

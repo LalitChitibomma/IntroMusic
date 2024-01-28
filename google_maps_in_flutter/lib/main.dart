@@ -60,7 +60,7 @@ class _MyAppState extends State<MyApp> {
             ((currentLocation.longitude ?? 0) - target.longitude) *
                 ((currentLocation.longitude ?? 0) - target.longitude);
         print('Distance $dist');
-        if (dist < 0.000001) {
+        if (dist < 0.00000001) {
           playAudio();
         }
 

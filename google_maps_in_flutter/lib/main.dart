@@ -19,13 +19,13 @@ class _LocationTrackerWidgetState extends State<LocationTrackerWidget> {
   void initState() {
     super.initState();
     _initLocationTracking();
-    target = target;
   }
 
   void _initLocationTracking() {
     Geolocator.getPositionStream().listen((Position position) {
       setState(() {
         _currentPosition = position;
+        target = position;
       });
 
       // Check if the current position is close to the target coordinates
@@ -36,33 +36,29 @@ class _LocationTrackerWidgetState extends State<LocationTrackerWidget> {
     });
   }
 
-  // Function to check if the current position is close to target coordinates
   bool _isCloseToTarget() {
     double dist = ((_currentPosition.latitude - target.latitude) * (_currentPosition.latitude - target.latitude))+
     ((_currentPosition.longitude - target.longitude) * (_currentPosition.longitude - target.longitude));
-    if (dist < 0.00001) {
+    if (dist < 0.00000001) {
       return true;
     }
     return false;
   }
 
-  // Function to play audio
   void _playAudio() async {
-    String audioUrl = 'https://example.com/audio.mp3'; // Replace with your audio file URL
-    int result = await audioPlayer.play(audioUrl, isLocal: false);
-
-    if (result == 1) {
-      print('Audio played successfully');
-    } else {
-      print('Error playing audio');
-    }
+    String audioUrl = 'https://www.youtube.com/watch?v=PAm8lPx9KHc&ab_channel=nari';
+    await audioPlayer.play(UrlSource(audioUrl));
   }
-
 
   @override
   void dispose() {
     audioPlayer.dispose(); // Dispose of the audio player when the widget is disposed
     super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return Scaffold();
   }
 }
 

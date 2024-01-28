@@ -14,9 +14,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Marker> markerz = [];
-  int id = 1;
-
   final Map<String, Marker> _markers = {};
   Future<void> _onMapCreated(GoogleMapController controller) async {
     final googleOffices = await locations.getGoogleOffices();
@@ -49,30 +46,13 @@ class _MyAppState extends State<MyApp> {
           elevation: 2,
         ),
         body: GoogleMap(
-          myLocationEnabled: true,
-          myLocationButtonEnabled: true,
-          onTap: (LatLng latLng) {
-            Marker newMarker = Marker(
-              markerId: MarkerId('$id'),
-              position: LatLng(latLng.latitude, latLng.longitude),
-              infoWindow: InfoWindow(title: 'New Place'),
-              icon: BitmapDescriptor.defaultMarkerWithHue(
-                BitmapDescriptor.hueRed,
-              ),
-            );
-
-            markerz.add(newMarker);
-            id = id + 1;
-            setState(() {});
-
-            print('Our lat nad long is: $latLng and id is $id');
-          },
           onMapCreated: _onMapCreated,
           initialCameraPosition: const CameraPosition(
             target: LatLng(100, -84),
             zoom: 2,
           ),
-          markers: markerz.map((e) => e).toSet(),
+          markers: _markers.values.toSet(),
+          myLocationEnabled: true,
         ),
       ),
     );
